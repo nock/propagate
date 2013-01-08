@@ -21,3 +21,17 @@ $ npm install propagate
 
   ee1.emit('event', 'a', 'b');
 ```
+
+## Unpropagate
+
+You can unpropagate by ending the propagation like this:
+
+```javascript
+  var ee1 = new EventEmitter();
+  var ee2 = new EventEmitter();
+  var p = propagate(ee1, ee2);
+
+  // ...
+
+  p.end();
+```
