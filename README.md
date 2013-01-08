@@ -20,4 +20,4 @@ $ npm install propagate
   });
 
   ee1.emit('event', 'a', 'b');
-``
+```
