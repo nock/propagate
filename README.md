@@ -8,7 +8,7 @@ Propagate events from one event emitter into another
 $ npm install propagate
 ```
 
-## User
+## Propagate
 
 ```javascript
   var ee1 = new EventEmitter();
