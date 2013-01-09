@@ -58,3 +58,27 @@ test('after propagation old one still emits', function(t) {
   prop.end();
   ee1.emit('event');
 });
+
+test('is able to propagate only certain events', function(t) {
+  t.plan(2);
+  var ee1 = new EventEmitter();
+  var ee2 = new EventEmitter();
+  // propagate only event-1 and event-2, leaving out
+  propagate(['event-1', 'event-2'], ee1, ee2);
+
+  ee2.on('event-1', function() {
+    t.ok(true, 'event 1 received');
+  });
+
+  ee2.on('event-2', function(a, b, c) {
+    t.ok(true, 'event 2 received');
+  });
+
+  ee2.on('event-3', function(a, b, c) {
+    t.ok(false, 'event 3 should not have been received');
+  });
+
+  ee1.emit('event-1');
+  ee1.emit('event-2');
+  ee1.emit('event-3');
+});
