@@ -36,12 +36,12 @@ You can unpropagate by ending the propagation like this:
   p.end();
 ```
 
-## Just propagate some events:
+## Only propagate certain events:
 
 ```javascript
   var ee1 = new EventEmitter();
   var ee2 = new EventEmitter();
-  var p = propagate(['event1', event2'], ee1, ee2);
+  var p = propagate(['event1', 'event2'], ee1, ee2);
 ```
 
 # License
