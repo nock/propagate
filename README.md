@@ -43,3 +43,7 @@ You can unpropagate by ending the propagation like this:
   var ee2 = new EventEmitter();
   var p = propagate(['event1', event2'], ee1, ee2);
 ```
+
+# License
+
+MIT
