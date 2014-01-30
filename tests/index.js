@@ -64,7 +64,7 @@ test('is able to propagate only certain events', function(t) {
   var ee1 = new EventEmitter();
   var ee2 = new EventEmitter();
   // propagate only event-1 and event-2, leaving out
-  propagate(['event-1', 'event-2'], ee1, ee2);
+  var p = propagate(['event-1', 'event-2'], ee1, ee2);
 
   ee2.on('event-1', function() {
     t.ok(true, 'event 1 received');
@@ -81,4 +81,8 @@ test('is able to propagate only certain events', function(t) {
   ee1.emit('event-1');
   ee1.emit('event-2');
   ee1.emit('event-3');
+
+  p.end();
+
+  ee1.emit('event-1');
 });
