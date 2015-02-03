@@ -21,5 +21,6 @@
     "tap": "0.3.x"
   },
   "scripts": { "test": "node node_modules/tap/bin/tap.js tests/index.js" },
-  "tags": ["event", "emitter", "propagation"]
+  "tags": ["event", "emitter", "propagation"],
+  "license": "MIT"
 }
