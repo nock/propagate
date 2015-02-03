@@ -1,7 +1,7 @@
 {
   "name": "propagate",
   "description": "Propagate events",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author" : "Pedro Teixeira <pedro.teixeira@gmail.com>",
   "contributors" : [
     {"name": "Pedro Teixeira"}
