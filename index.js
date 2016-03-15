@@ -5,10 +5,11 @@ function propagate(events, source, dest) {
     events = undefined;
   }
 
-  // events should be an array
-  if (events && ! Array.isArray(events)) events = [events];
+  // events should be an array or object
+  var eventsIsObject = typeof events === 'object'
+  if (events && !eventsIsObject) events = [events];
 
-  if (Array.isArray(events)) {
+  if (eventsIsObject) {
     return explicitPropagate(events, source, dest);
   }
 
@@ -33,10 +34,21 @@ function propagate(events, source, dest) {
 module.exports = propagate;
 
 function explicitPropagate(events, source, dest) {
+  var eventsIn;
+  var eventsOut;
+  if (Array.isArray(events)) {
+    eventsIn = events;
+    eventsOut = events;
+  } else {
+    eventsIn = Object.keys(events);
+    eventsOut = eventsIn.map(function (key) {
+      return events[key]
+    })
+  }
 
-  var listeners = events.map(function(event) {
+  var listeners = eventsOut.map(function(event) {
     return function() {
-      var args = Array.prototype.slice(arguments);
+      var args = Array.prototype.slice.call(arguments);
       args.unshift(event);
       dest.emit.apply(dest, args);
     }
@@ -49,11 +61,11 @@ function explicitPropagate(events, source, dest) {
   };
 
   function register(listener, i) {
-    source.on(events[i], listener);
+    source.on(eventsIn[i], listener);
   }
 
   function unregister(listener, i) {
-    source.removeListener(events[i], listener);
+    source.removeListener(eventsIn[i], listener);
   }
 
   function end() {

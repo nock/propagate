@@ -44,6 +44,17 @@ You can unpropagate by ending the propagation like this:
   var p = propagate(['event1', 'event2'], ee1, ee2);
 ```
 
+## Propagate certain events as other events:
+
+```javascript
+  var ee1 = new EventEmitter();
+  var ee2 = new EventEmitter();
+  var p = propagate({
+    'event1': 'other-event1',
+    'event2': 'other-event2'
+  }, ee1, ee2);
+```
+
 # License
 
 MIT
