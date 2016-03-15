@@ -48,7 +48,7 @@ function explicitPropagate(events, source, dest) {
 
   var listeners = eventsOut.map(function(event) {
     return function() {
-      var args = Array.prototype.slice(arguments);
+      var args = Array.prototype.slice.call(arguments);
       args.unshift(event);
       dest.emit.apply(dest, args);
     }
