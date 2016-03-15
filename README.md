@@ -1,5 +1,7 @@
 # propagate
 
+[![Build Status](https://travis-ci.org/pgte/propagate.svg?branch=master)](https://travis-ci.org/pgte/propagate)
+
 Propagate events from one event emitter into another
 
 ## Install
