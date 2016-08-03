@@ -16,10 +16,11 @@ function propagate(events, source, dest) {
   var oldEmit =  source.emit;
 
   source.emit = function(eventType) {
+    oldEmit.apply(source, arguments);
+
     if (! events || ~events.indexOf(eventType)) {
       dest.emit.apply(dest, arguments);
     }
-    oldEmit.apply(source, arguments);
   }
 
   function end() {

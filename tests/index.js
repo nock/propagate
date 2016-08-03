@@ -59,6 +59,27 @@ test('after propagation old one still emits', function(t) {
   ee1.emit('event');
 });
 
+test('emit on source before destination', function (t) {
+  t.plan(1);
+
+  var source = new EventEmitter();
+  var dest = new EventEmitter();
+
+  // Set up test case for "propagate all"
+  // `count` should have been incremented by handler on source when handler on dest is invoked
+  var count = 0;
+  propagate(source, dest);
+  source.on('event', function () {
+    count++;
+  });
+  dest.on('event', function () {
+    t.equal(count, 1, 'emit on source first');
+  });
+
+  // Emit the events for assertion
+  source.emit('event');
+});
+
 test('is able to propagate only certain events', function(t) {
   t.plan(2);
   var ee1 = new EventEmitter();
