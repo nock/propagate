@@ -1,5 +1,6 @@
 var test = require('tap').test;
 var EventEmitter = require('events').EventEmitter;
+var http = require('http');
 var propagate = require('..');
 
 test('propagates events', function(t) {
@@ -137,4 +138,34 @@ test('is able to propagate and map certain events', function(t) {
   p.end();
 
   ee1.emit('event-1');
+});
+
+test('is able to propagate response from http.ClientRequest', function (t) {
+  t.plan(1);
+
+  var request = http.request({
+    hostname: 'google.com',
+    path: '/',
+    method: 'GET'
+  });
+
+  var ee1 = new EventEmitter();
+
+  propagate(request, ee1);
+
+  var retrievedData = "";
+  ee1.on('response', (response) => {
+
+    response.on('data', (data) => {
+      retrievedData = data.toString('utf8');
+    });
+
+    response.on('close', () => {
+      t.notEqual(retrievedData, "");
+    });
+    
+  });
+
+  request.end();
+
 });
