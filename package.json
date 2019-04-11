@@ -21,11 +21,17 @@
   "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
-    "tap": "^12.6.1",
-    "semantic-release": "16.0.0-beta.18"
+    "semantic-release": "16.0.0-beta.18",
+    "tap": "^12.6.1"
   },
   "scripts": {
-    "test": "tap tests/index.js"
+    "test": "tap --coverage tests/index.js",
+    "coverage": "tap --coverage-report=html && open coverage/lcov-report/index.html"
+  },
+  "nyc": {
+    "exclude": [
+      "tests/"
+    ]
   },
   "tags": [
     "event",
