@@ -1,6 +1,6 @@
 {
   "name": "propagate",
-  "description": "Propagate events",
+  "description": "Propagate events from one event emitter into another",
   "version": "1.0.0",
   "author": "Pedro Teixeira <pedro.teixeira@gmail.com>",
   "contributors": [
@@ -8,27 +8,24 @@
       "name": "Pedro Teixeira"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/pgte/propagate.git"
+  "repository": "nock/propagate",
+  "homepage": "http://github.com/nock/propagate#readme",
+  "bugs": "http://github.com/nock/propagate/issues",
+  "engines": {
+    "node": ">= 0.8.1"
   },
-  "bugs": {
-    "url": "http://github.com/pgte/propagate/issues"
-  },
-  "engines": [
-    "node >= 0.8.1"
-  ],
-  "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
-    "tap": "^12.6.1"
+    "tap": "^11.1.5"
   },
   "scripts": {
     "test": "tap tests/index.js"
   },
-  "tags": [
+  "keywords": [
     "event",
+    "events",
     "emitter",
+    "eventemitter",
     "propagation"
   ],
   "license": "MIT"
