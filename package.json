@@ -22,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "tap": "0.3.x",
-    "semantic-release": "^15.13.3"
+    "semantic-release": "16.0.0-beta.18"
   },
   "scripts": {
     "test": "node node_modules/tap/bin/tap.js tests/index.js"
