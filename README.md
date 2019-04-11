@@ -1,6 +1,6 @@
 # propagate
 
-[![Build Status](https://travis-ci.org/pgte/propagate.svg?branch=master)](https://travis-ci.org/pgte/propagate)
+[![Build Status](https://travis-ci.org/nock/propagate.svg?branch=master)](https://travis-ci.org/nock/propagate)
 
 Propagate events from one event emitter into another
 
