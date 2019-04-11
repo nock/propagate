@@ -21,7 +21,7 @@
   "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
-    "tap": "^11.1.5",
+    "tap": "^12.6.1",
     "semantic-release": "16.0.0-beta.18"
   },
   "scripts": {
