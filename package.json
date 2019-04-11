@@ -6,6 +6,7 @@
     "events",
     "emitter",
     "eventemitter",
+    "propagation"
   ],
   "version": "0.0.0-development",
   "author": "Pedro Teixeira <pedro.teixeira@gmail.com>",
