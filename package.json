@@ -24,7 +24,7 @@
     "tap": "^11.1.5"
   },
   "scripts": {
-    "test": "node node_modules/tap/bin/tap.js tests/index.js"
+    "test": "tap tests/index.js"
   },
   "tags": [
     "event",
