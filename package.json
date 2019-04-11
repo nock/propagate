@@ -24,16 +24,15 @@
   "dependencies": {},
   "devDependencies": {
     "prettier": "^1.16.4",
-    "prettier-check": "^2.0.0",
     "semantic-release": "16.0.0-beta.18",
     "tap": "^12.6.1"
   },
   "scripts": {
     "unit": "node node_modules/tap/bin/tap.js tests/index.js",
     "prettier": "prettier --write \"**/*.@(js|md|yml|json)\"",
-    "prettier-check": "prettier-check \"**/*.@(js|md|yml|json)\"",
+    "prettier:check": "prettier --check \"**/*.@(js|md|yml|json)\"",
     "test": "npm run -s unit",
-    "posttest": "npm run -s prettier-check"
+    "posttest": "npm run -s prettier:check"
   },
   "nyc": {
     "exclude": [
