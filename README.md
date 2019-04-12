@@ -19,8 +19,8 @@ $ npm install propagate
 ## Propagate
 
 ```javascript
-var ee1 = new EventEmitter()
-var ee2 = new EventEmitter()
+const ee1 = new EventEmitter()
+const ee2 = new EventEmitter()
 propagate(ee1, ee2)
 
 ee2.on('event', function(a, b) {
@@ -35,9 +35,9 @@ ee1.emit('event', 'a', 'b')
 You can unpropagate by ending the propagation like this:
 
 ```javascript
-var ee1 = new EventEmitter()
-var ee2 = new EventEmitter()
-var p = propagate(ee1, ee2)
+const ee1 = new EventEmitter()
+const ee2 = new EventEmitter()
+const p = propagate(ee1, ee2)
 
 // ...
 
@@ -47,17 +47,17 @@ p.end()
 ## Only propagate certain events:
 
 ```javascript
-var ee1 = new EventEmitter()
-var ee2 = new EventEmitter()
-var p = propagate(['event1', 'event2'], ee1, ee2)
+const ee1 = new EventEmitter()
+const ee2 = new EventEmitter()
+const p = propagate(['event1', 'event2'], ee1, ee2)
 ```
 
 ## Propagate certain events as other events:
 
 ```javascript
-var ee1 = new EventEmitter()
-var ee2 = new EventEmitter()
-var p = propagate(
+const ee1 = new EventEmitter()
+const ee2 = new EventEmitter()
+const p = propagate(
   {
     event1: 'other-event1',
     event2: 'other-event2',
