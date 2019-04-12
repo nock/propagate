@@ -1,8 +1,14 @@
 # propagate
 
-[![Build Status](https://travis-ci.org/nock/propagate.svg?branch=master)](https://travis-ci.org/nock/propagate)
+[![npm](https://img.shields.io/npm/v/nock.svg?style=flat-square)][npmjs]
+[![Build Status](https://img.shields.io/travis/nock/propagate/master.svg?style=flat-square)][build]
+[![Coverage](https://img.shields.io/coveralls/github/nock/propagate.svg?style=flat-square)][coverage]
 
-Propagate events from one event emitter into another
+[npmjs]: https://www.npmjs.com/package/propagate
+[build]: https://travis-ci.org/nock/propagate
+[coverage]: https://coveralls.io/github/nock/propagate
+
+Propagate events from one event emitter into another.
 
 ## Install
 

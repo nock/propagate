@@ -1,6 +1,6 @@
 The MIT License
 
-Copyright (c) 2015 Pedro Teixeira
+Copyright (c) 2015-2019 Pedro Teixeira and other contributors
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
