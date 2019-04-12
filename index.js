@@ -21,7 +21,7 @@ function propagate(events, source, dest) {
     let oldHandled = oldEmit.call(source, eventName, ...args)
 
     let destHandled = false
-    if (events === undefined || !~events.indexOf(eventType)) {
+    if (events === undefined || events.includes(eventName)) {
       destHandled = dest.emit.call(dest, eventName, ...args)
     }
 

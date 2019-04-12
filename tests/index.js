@@ -95,7 +95,7 @@ test('is able to propagate only certain events', t => {
   })
 
   ee2.on('event-3', (a, b, c) => {
-    t.ok(false, 'event 3 should not have been received')
+    t.fail('event 3 should not have been received')
   })
 
   t.true(ee1.emit('event-1'))
@@ -130,7 +130,7 @@ test('is able to propagate and map certain events', t => {
   })
 
   ee2.on('event-3', (a, b, c) => {
-    t.ok(false, 'event 3 should not have been received')
+    t.fail('event 3 should not have been received')
   })
 
   t.true(ee1.emit('event-1'))
@@ -140,4 +140,27 @@ test('is able to propagate and map certain events', t => {
   p.end()
 
   t.false(ee1.emit('event-1'))
+})
+
+test('is able to propagate a single event', t => {
+  t.plan(5)
+  var ee1 = new EventEmitter()
+  var ee2 = new EventEmitter()
+  var p = propagate('event-1', ee1, ee2)
+
+  ee2.on('event-1', () => {
+    t.ok(true, 'event 1 received')
+  })
+
+  ee2.on('event-2', (a, b, c) => {
+    t.fail('event 3 should not have been received')
+  })
+
+  t.true(ee1.emit('event-1'))
+  t.false(ee1.emit('event-2'))
+
+  p.end()
+
+  t.false(ee1.emit('event-1'))
+  t.false(ee1.emit('event-2'))
 })
