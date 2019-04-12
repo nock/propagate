@@ -1,3 +1,5 @@
+'use strict'
+
 function propagate(events, source, dest) {
   if (arguments.length < 3) {
     dest = source
@@ -6,14 +8,14 @@ function propagate(events, source, dest) {
   }
 
   // events should be an array or object
-  var eventsIsObject = typeof events === 'object'
+  const eventsIsObject = typeof events === 'object'
   if (events && !eventsIsObject) events = [events]
 
   if (eventsIsObject) {
     return explicitPropagate(events, source, dest)
   }
 
-  var oldEmit = source.emit
+  const oldEmit = source.emit
 
   // Returns true if the event had listeners, false otherwise.
   // https://nodejs.org/api/events.html#events_emitter_emit_eventname_args
@@ -33,15 +35,15 @@ function propagate(events, source, dest) {
   }
 
   return {
-    end: end,
+    end,
   }
 }
 
 module.exports = propagate
 
 function explicitPropagate(events, source, dest) {
-  var eventsIn
-  var eventsOut
+  let eventsIn
+  let eventsOut
   if (Array.isArray(events)) {
     eventsIn = events
     eventsOut = events
@@ -52,9 +54,9 @@ function explicitPropagate(events, source, dest) {
     })
   }
 
-  var listeners = eventsOut.map(function(event) {
+  const listeners = eventsOut.map(function(event) {
     return function() {
-      var args = Array.prototype.slice.call(arguments)
+      const args = Array.prototype.slice.call(arguments)
       args.unshift(event)
       dest.emit.apply(dest, args)
     }
@@ -63,7 +65,7 @@ function explicitPropagate(events, source, dest) {
   listeners.forEach(register)
 
   return {
-    end: end,
+    end,
   }
 
   function register(listener, i) {
