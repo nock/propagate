@@ -1,11 +1,13 @@
-var test = require('tap').test
-var EventEmitter = require('events').EventEmitter
-var propagate = require('..')
+'use strict'
+
+const { test } = require('tap')
+const { EventEmitter } = require('events')
+const propagate = require('..')
 
 test('propagates events', function(t) {
   t.plan(12)
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
   propagate(ee1, ee2)
 
   ee2.on('event-1', function(a, b, c) {
@@ -29,9 +31,9 @@ test('propagates events', function(t) {
 test('propagates can end', function(t) {
   t.plan(1)
 
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
-  var prop = propagate(ee1, ee2)
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
+  const prop = propagate(ee1, ee2)
 
   ee2.on('event', function() {
     t.ok('true', 'propagated')
@@ -45,9 +47,9 @@ test('propagates can end', function(t) {
 test('after propagation old one still emits', function(t) {
   t.plan(2)
 
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
-  var prop = propagate(ee1, ee2)
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
+  const prop = propagate(ee1, ee2)
 
   ee1.on('event', function() {
     t.ok('true', 'propagated')
@@ -61,12 +63,12 @@ test('after propagation old one still emits', function(t) {
 test('emit on source before destination', function(t) {
   t.plan(1)
 
-  var source = new EventEmitter()
-  var dest = new EventEmitter()
+  const source = new EventEmitter()
+  const dest = new EventEmitter()
 
   // Set up test case for "propagate all"
   // `count` should have been incremented by handler on source when handler on dest is invoked
-  var count = 0
+  let count = 0
   propagate(source, dest)
   source.on('event', function() {
     count++
@@ -81,10 +83,10 @@ test('emit on source before destination', function(t) {
 
 test('is able to propagate only certain events', function(t) {
   t.plan(2)
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
   // propagate only event-1 and event-2, leaving out
-  var p = propagate(['event-1', 'event-2'], ee1, ee2)
+  const p = propagate(['event-1', 'event-2'], ee1, ee2)
 
   ee2.on('event-1', function() {
     t.ok(true, 'event 1 received')
@@ -109,10 +111,10 @@ test('is able to propagate only certain events', function(t) {
 
 test('is able to propagate and map certain events', function(t) {
   t.plan(2)
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
   // propagate only event-1 and event-2, leaving out
-  var p = propagate(
+  const p = propagate(
     {
       'event-1': 'other-event-1',
       'event-2': 'other-event-2',
