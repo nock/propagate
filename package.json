@@ -29,6 +29,7 @@
   },
   "scripts": {
     "unit": "tap tests/index.js",
+    "coverage": "tap --coverage-report=html && open coverage/lcov-report/index.html",
     "prettier": "prettier --write \"**/*.@(js|md|yml|json)\"",
     "prettier:check": "prettier --check \"**/*.@(js|md|yml|json)\"",
     "test": "npm run -s unit",
