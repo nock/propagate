@@ -1,85 +1,67 @@
 'use strict'
 
-function propagate(events, source, dest) {
-  if (arguments.length < 3) {
-    dest = source
-    source = events
-    events = undefined
+function propagateKeyedEvents(keyedEventNames, source, dest) {
+  const keyedListeners = {}
+  Object.entries(keyedEventNames).forEach(([srcEventName, dstEventName]) => {
+    keyedListeners[srcEventName] = (...args) => {
+      dest.emit(dstEventName, ...args)
+    }
+  })
+
+  Object.entries(keyedListeners).forEach(([srcEventName, listener]) => {
+    source.on(srcEventName, listener)
+  })
+
+  return {
+    end() {
+      Object.entries(keyedListeners).forEach(([srcEventName, listener]) => {
+        source.removeListener(srcEventName, listener)
+      })
+    },
   }
+}
 
-  // events should be an array or object
-  const eventsIsObject = typeof events === 'object'
-  if (events && !eventsIsObject) events = [events]
-
-  if (eventsIsObject) {
-    return explicitPropagate(events, source, dest)
-  }
-
-  const shouldPropagate = eventName =>
-    events === undefined || events.includes(eventName)
-
+function propagateAllEvents(source, dest) {
   const oldEmit = source.emit
 
   // Returns true if the event had listeners, false otherwise.
   // https://nodejs.org/api/events.html#events_emitter_emit_eventname_args
   source.emit = (eventName, ...args) => {
     const oldEmitHadListeners = oldEmit.call(source, eventName, ...args)
-
-    let destEmitHadListeners = false
-    if (shouldPropagate(eventName)) {
-      destEmitHadListeners = dest.emit(eventName, ...args)
-    }
-
+    const destEmitHadListeners = dest.emit(eventName, ...args)
     return oldEmitHadListeners || destEmitHadListeners
   }
 
-  function end() {
-    source.emit = oldEmit
-  }
-
   return {
-    end,
+    end() {
+      source.emit = oldEmit
+    },
   }
 }
 
-module.exports = propagate
+module.exports = function propagate(events, source, dest) {
+  if (arguments.length < 3) {
+    dest = source
+    source = events
+    events = undefined
+  }
 
-function explicitPropagate(events, source, dest) {
-  let eventsIn
-  let eventsOut
+  if (events === undefined) {
+    return propagateAllEvents(source, dest)
+  }
+
+  let keyedEventNames
   if (Array.isArray(events)) {
-    eventsIn = events
-    eventsOut = events
-  } else {
-    eventsIn = Object.keys(events)
-    eventsOut = eventsIn.map(function(key) {
-      return events[key]
+    keyedEventNames = {}
+    events.forEach(eventName => {
+      keyedEventNames[eventName] = eventName
     })
+  } else if (typeof events === 'object') {
+    keyedEventNames = events
+  } else {
+    const eventName = events
+    keyedEventNames = { [eventName]: eventName }
   }
 
-  const listeners = eventsOut.map(function(event) {
-    return function() {
-      const args = Array.prototype.slice.call(arguments)
-      args.unshift(event)
-      dest.emit.apply(dest, args)
-    }
-  })
-
-  listeners.forEach(register)
-
-  return {
-    end,
-  }
-
-  function register(listener, i) {
-    source.on(eventsIn[i], listener)
-  }
-
-  function unregister(listener, i) {
-    source.removeListener(eventsIn[i], listener)
-  }
-
-  function end() {
-    listeners.forEach(unregister)
-  }
+  return propagateKeyedEvents(keyedEventNames, source, dest)
 }
