@@ -15,6 +15,9 @@ function propagate(events, source, dest) {
     return explicitPropagate(events, source, dest)
   }
 
+  const shouldPropagate = eventName =>
+    events === undefined || events.includes(eventName)
+
   const oldEmit = source.emit
 
   // Returns true if the event had listeners, false otherwise.
@@ -23,7 +26,7 @@ function propagate(events, source, dest) {
     const oldEmitHadListeners = oldEmit.call(source, eventName, ...args)
 
     let destEmitHadListeners = false
-    if (events === undefined || events.includes(eventName)) {
+    if (shouldPropagate(eventName)) {
       destEmitHadListeners = dest.emit(eventName, ...args)
     }
 
