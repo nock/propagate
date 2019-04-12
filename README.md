@@ -1,6 +1,6 @@
 # propagate
 
-[![npm](https://img.shields.io/npm/v/nock.svg?style=flat-square)][npmjs]
+[![npm](https://img.shields.io/npm/v/propagate.svg?style=flat-square)][npmjs]
 [![Build Status](https://img.shields.io/travis/nock/propagate/master.svg?style=flat-square)][build]
 [![Coverage](https://img.shields.io/coveralls/github/nock/propagate.svg?style=flat-square)][coverage]
 
