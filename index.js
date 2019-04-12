@@ -15,12 +15,17 @@ function propagate(events, source, dest) {
 
   var oldEmit = source.emit
 
-  source.emit = function(eventType) {
-    oldEmit.apply(source, arguments)
+  // Returns true if the event had listeners, false otherwise.
+  // https://nodejs.org/api/events.html#events_emitter_emit_eventname_args
+  source.emit = (eventName, ...args) => {
+    let oldHandled = oldEmit.call(source, eventName, ...args)
 
-    if (!events || ~events.indexOf(eventType)) {
-      dest.emit.apply(dest, arguments)
+    let destHandled = false
+    if (events === undefined || !~events.indexOf(eventType)) {
+      destHandled = dest.emit.call(dest, eventName, ...args)
     }
+
+    return oldHandled || destHandled
   }
 
   function end() {

@@ -2,64 +2,64 @@ var test = require('tap').test
 var EventEmitter = require('events').EventEmitter
 var propagate = require('..')
 
-test('propagates events', function(t) {
-  t.plan(12)
+test('propagates events', t => {
+  t.plan(16)
   var ee1 = new EventEmitter()
   var ee2 = new EventEmitter()
   propagate(ee1, ee2)
 
-  ee2.on('event-1', function(a, b, c) {
+  ee2.on('event-1', (a, b, c) => {
     t.equal(a, 'a')
     t.equal(b, 'b')
     t.equal(c, undefined)
   })
 
-  ee2.on('event-2', function(a, b, c) {
+  ee2.on('event-2', (a, b, c) => {
     t.equal(a, 'c')
     t.equal(b, 'd')
     t.equal(c, undefined)
   })
 
-  ee1.emit('event-1', 'a', 'b')
-  ee1.emit('event-1', 'a', 'b')
-  ee1.emit('event-2', 'c', 'd')
-  ee1.emit('event-2', 'c', 'd')
+  t.true(ee1.emit('event-1', 'a', 'b'))
+  t.true(ee1.emit('event-1', 'a', 'b'))
+  t.true(ee1.emit('event-2', 'c', 'd'))
+  t.true(ee1.emit('event-2', 'c', 'd'))
 })
 
-test('propagates can end', function(t) {
-  t.plan(1)
+test('propagates can end', t => {
+  t.plan(3)
 
   var ee1 = new EventEmitter()
   var ee2 = new EventEmitter()
   var prop = propagate(ee1, ee2)
 
-  ee2.on('event', function() {
+  ee2.on('event', () => {
     t.ok('true', 'propagated')
   })
 
-  ee1.emit('event')
+  t.true(ee1.emit('event'))
   prop.end()
-  ee1.emit('event')
+  t.false(ee1.emit('event'))
 })
 
-test('after propagation old one still emits', function(t) {
+test('after propagation old one still emits', t => {
+  t.plan(4)
+
+  var ee1 = new EventEmitter()
+  var ee2 = new EventEmitter()
+  var prop = propagate(ee1, ee2)
+
+  ee1.on('event', () => {
+    t.ok('true', 'propagated')
+  })
+
+  t.true(ee1.emit('event'))
+  prop.end()
+  t.true(ee1.emit('event'))
+})
+
+test('emit on source before destination', t => {
   t.plan(2)
-
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
-  var prop = propagate(ee1, ee2)
-
-  ee1.on('event', function() {
-    t.ok('true', 'propagated')
-  })
-
-  ee1.emit('event')
-  prop.end()
-  ee1.emit('event')
-})
-
-test('emit on source before destination', function(t) {
-  t.plan(1)
 
   var source = new EventEmitter()
   var dest = new EventEmitter()
@@ -68,47 +68,47 @@ test('emit on source before destination', function(t) {
   // `count` should have been incremented by handler on source when handler on dest is invoked
   var count = 0
   propagate(source, dest)
-  source.on('event', function() {
+  source.on('event', () => {
     count++
   })
-  dest.on('event', function() {
+  dest.on('event', () => {
     t.equal(count, 1, 'emit on source first')
   })
 
   // Emit the events for assertion
-  source.emit('event')
+  t.true(source.emit('event'))
 })
 
-test('is able to propagate only certain events', function(t) {
-  t.plan(2)
+test('is able to propagate only certain events', t => {
+  t.plan(6)
   var ee1 = new EventEmitter()
   var ee2 = new EventEmitter()
   // propagate only event-1 and event-2, leaving out
   var p = propagate(['event-1', 'event-2'], ee1, ee2)
 
-  ee2.on('event-1', function() {
+  ee2.on('event-1', () => {
     t.ok(true, 'event 1 received')
   })
 
-  ee2.on('event-2', function(a, b, c) {
+  ee2.on('event-2', (a, b, c) => {
     t.ok(true, 'event 2 received')
   })
 
-  ee2.on('event-3', function(a, b, c) {
+  ee2.on('event-3', (a, b, c) => {
     t.ok(false, 'event 3 should not have been received')
   })
 
-  ee1.emit('event-1')
-  ee1.emit('event-2')
-  ee1.emit('event-3')
+  t.true(ee1.emit('event-1'))
+  t.true(ee1.emit('event-2'))
+  t.false(ee1.emit('event-3'))
 
   p.end()
 
-  ee1.emit('event-1')
+  t.false(ee1.emit('event-1'))
 })
 
-test('is able to propagate and map certain events', function(t) {
-  t.plan(2)
+test('is able to propagate and map certain events', t => {
+  t.plan(6)
   var ee1 = new EventEmitter()
   var ee2 = new EventEmitter()
   // propagate only event-1 and event-2, leaving out
@@ -121,23 +121,23 @@ test('is able to propagate and map certain events', function(t) {
     ee2
   )
 
-  ee2.on('other-event-1', function() {
+  ee2.on('other-event-1', () => {
     t.ok(true, 'event 1 received')
   })
 
-  ee2.on('other-event-2', function(a, b, c) {
+  ee2.on('other-event-2', (a, b, c) => {
     t.ok(true, 'event 2 received')
   })
 
-  ee2.on('event-3', function(a, b, c) {
+  ee2.on('event-3', (a, b, c) => {
     t.ok(false, 'event 3 should not have been received')
   })
 
-  ee1.emit('event-1')
-  ee1.emit('event-2')
-  ee1.emit('event-3')
+  t.true(ee1.emit('event-1'))
+  t.true(ee1.emit('event-2'))
+  t.false(ee1.emit('event-3'))
 
   p.end()
 
-  ee1.emit('event-1')
+  t.false(ee1.emit('event-1'))
 })
