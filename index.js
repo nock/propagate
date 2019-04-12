@@ -18,14 +18,14 @@ function propagate(events, source, dest) {
   // Returns true if the event had listeners, false otherwise.
   // https://nodejs.org/api/events.html#events_emitter_emit_eventname_args
   source.emit = (eventName, ...args) => {
-    let oldHandled = oldEmit.call(source, eventName, ...args)
+    let oldEmitHadListeners = oldEmit.call(source, eventName, ...args)
 
-    let destHandled = false
+    let destEmitHadListeners = false
     if (events === undefined || events.includes(eventName)) {
-      destHandled = dest.emit.call(dest, eventName, ...args)
+      destEmitHadListeners = dest.emit.call(dest, eventName, ...args)
     }
 
-    return oldHandled || destHandled
+    return oldEmitHadListeners || destEmitHadListeners
   }
 
   function end() {
