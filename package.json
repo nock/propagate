@@ -36,7 +36,7 @@
   },
   "scripts": {
     "lint": "eslint \"**/*.js\"",
-    "unit": "tap tests/index.js",
+    "unit": "tap --100 tests/index.js",
     "coverage": "tap --coverage-report=html && open coverage/lcov-report/index.html",
     "prettier": "prettier --write \"**/*.@(js|md|yml|json)\"",
     "prettier:check": "prettier --check \"**/*.@(js|md|yml|json)\"",
