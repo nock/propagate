@@ -146,9 +146,9 @@ test('is able to propagate and map certain events', t => {
 
 test('is able to propagate a single event', t => {
   t.plan(5)
-  var ee1 = new EventEmitter()
-  var ee2 = new EventEmitter()
-  var p = propagate('event-1', ee1, ee2)
+  const ee1 = new EventEmitter()
+  const ee2 = new EventEmitter()
+  const p = propagate('event-1', ee1, ee2)
 
   ee2.on('event-1', () => {
     t.ok(true, 'event 1 received')
