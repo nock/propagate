@@ -31,7 +31,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "prettier": "^1.16.4",
-    "semantic-release": "16.0.0-beta.18",
+    "semantic-release": "16.0.0-beta.22",
     "tap": "^12.6.1"
   },
   "scripts": {
